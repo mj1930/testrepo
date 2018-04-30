@@ -1,28 +1,24 @@
 <div class="container">  
   <div class="row">
-    <div class="col-sm-4 top">
+    <div class="col-sm-12 top">
       <a [routerLink]="['/']">
         <i class="fa fa-dashboard"></i> Book A Ticket
       </a>
     </div>
-    <div class="col-sm-4 pull-right">
-        <ngx-flash-messages></ngx-flash-messages>
+    <div class="col-sm-2" *ngFor="let ticket of totalTicket(80); let i='index+1'; let j=index">
+      <div class="form-check">
+        <div *ngIf= "bookedTickets.length > j; else newTemplate">
+          <input class="form-check-input" [id]="i" type="checkbox" disabled checked="{{(bookedTickets[j].seat == i) ? true : false}}">
+          <label class="form-check-label" [for]="i">
+            {{bookedTickets[j].name}}
+          </label>
+        </div>
+      </div>
     </div>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Firstname</th>
-          <th>Age</th>
-          <th>Seat No.</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let ticket of bookedTickets">
-          <td>{{ticket.name}}</td>
-          <td>{{ticket.age}}</td>
-          <td>{{ticket.seat}}</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </div>
+<ng-template #newTemplate>
+    <input class="form-check-input" type="checkbox" disabled>
+    <label class="form-check-label">
+    </label>
+</ng-template>

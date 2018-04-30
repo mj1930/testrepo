@@ -45,8 +45,11 @@ export class BookingComponent implements OnInit {
   private getTotalSeats() {
     this.getSeats = this.getService.getBookedTickets().then(
       (res: any) => {
-        if (res.status == 200) {          
+        if (res.status == 200) {
           this.totalSeats = 80 - res.data.length;
+        }
+        else {
+          this.totalSeats = 80;
         }
       }
     )

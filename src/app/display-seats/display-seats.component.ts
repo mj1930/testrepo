@@ -11,7 +11,7 @@ import { FlashMessagesService } from 'ngx-flash-messages';
 export class DisplaySeatsComponent implements OnInit {
 
   busy: Promise<any>;
-  bookedTickets;
+  bookedTickets:any = [];
   constructor(
     private service: DisplaySeatsService,
     private flashMsgService: FlashMessagesService
@@ -19,6 +19,14 @@ export class DisplaySeatsComponent implements OnInit {
 
   ngOnInit() {
     this.getTickets();
+  }
+
+  totalTicket(number) {
+    let nOfSeats = [];
+    for ( let i =1; i <= number; i++) {
+      nOfSeats.push(i);
+    }
+    return nOfSeats;
   }
 
   getTickets() {
@@ -32,6 +40,7 @@ export class DisplaySeatsComponent implements OnInit {
           })
         }
         else {
+          this.bookedTickets = [];
           this.flashMsgService.show(res.msg, {
             classes: ['alert', 'alert-error'], // You can pass as many classes as you need
             timeout: 2000, 
