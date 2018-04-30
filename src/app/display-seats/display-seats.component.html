@@ -7,7 +7,7 @@
     </div>
     <div class="col-sm-2" *ngFor="let ticket of totalTicket(80); let i='index+1'; let j=index">
       <div class="form-check">
-        <div *ngIf= "bookedTickets.length > j; else newTemplate">
+        <div *ngIf= "bookedTickets.length >= i; else newTemplate">
           <input class="form-check-input" [id]="i" type="checkbox" disabled checked="{{(bookedTickets[j].seat == i) ? true : false}}">
           <label class="form-check-label" [for]="i">
             {{bookedTickets[j].name}}
