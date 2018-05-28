@@ -42,7 +42,7 @@ export class BookingComponent implements OnInit {
     return this.bookingForm.get('booking') as FormArray;
   };
 
-  private getTotalSeats() {
+  getTotalSeats() {
     this.getSeats = this.getService.getBookedTickets().then(
       (res: any) => {
         if (res.status == 200) {

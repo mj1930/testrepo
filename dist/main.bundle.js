@@ -87,12 +87,14 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__booking_booking_component__ = __webpack_require__("../../../../../src/app/booking/booking.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__display_seats_display_seats_component__ = __webpack_require__("../../../../../src/app/display-seats/display-seats.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_ngx_flash_messages__ = __webpack_require__("../../../../ngx-flash-messages/lib-dist/flash-messages.module.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__angular_common__ = __webpack_require__("../../../common/esm5/common.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -109,7 +111,11 @@ var AppModule = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             imports: [__WEBPACK_IMPORTED_MODULE_3__app_routing__["a" /* routing */], __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["a" /* BrowserModule */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* ReactiveFormsModule */], __WEBPACK_IMPORTED_MODULE_5__angular_http__["b" /* HttpModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_flash_messages__["a" /* FlashMessagesModule */]],
             declarations: [__WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* AppComponent */], __WEBPACK_IMPORTED_MODULE_6__booking_booking_component__["a" /* BookingComponent */], __WEBPACK_IMPORTED_MODULE_7__display_seats_display_seats_component__["a" /* DisplaySeatsComponent */]],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* AppComponent */]]
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* AppComponent */]],
+            providers: [{
+                    provide: __WEBPACK_IMPORTED_MODULE_9__angular_common__["g" /* LocationStrategy */],
+                    useClass: __WEBPACK_IMPORTED_MODULE_9__angular_common__["d" /* HashLocationStrategy */]
+                }]
         })
     ], AppModule);
     return AppModule;
@@ -227,6 +233,7 @@ var BookingComponent = (function () {
     BookingComponent.prototype.getTotalSeats = function () {
         var _this = this;
         this.getSeats = this.getService.getBookedTickets().then(function (res) {
+            console.log(res);
             if (res.status == 200) {
                 _this.totalSeats = 80 - res.data.length;
             }
@@ -306,6 +313,7 @@ var BookingComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -318,17 +326,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var BookingService = (function () {
     function BookingService(_router, http) {
         this._router = _router;
         this.http = http;
+        this.BASE_URL = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].config.API_URL;
     }
     BookingService.prototype.addNewBooking = function (body, nOfPassengers) {
         var bodyData = {
             body: body,
             nOfPassengers: nOfPassengers
         };
-        return this.http.post("http://localhost:3000/booking/addBooking", bodyData)
+        return this.http.post(this.BASE_URL + "booking/addBooking", bodyData)
             .toPromise().then(function (res) { return res.json(); });
     };
     BookingService = __decorate([
@@ -447,6 +457,7 @@ var DisplaySeatsComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -459,13 +470,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var DisplaySeatsService = (function () {
     function DisplaySeatsService(_router, http) {
         this._router = _router;
         this.http = http;
+        this.BASE_URL = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].config.API_URL;
     }
     DisplaySeatsService.prototype.getBookedTickets = function () {
-        return this.http.get("http://localhost:3000/booking/getTickets/")
+        return this.http.get(this.BASE_URL + "booking/getTickets/")
             .toPromise().then(function (res) { return res.json(); });
     };
     DisplaySeatsService = __decorate([
@@ -475,6 +488,27 @@ var DisplaySeatsService = (function () {
     return DisplaySeatsService;
 }());
 
+
+
+/***/ }),
+
+/***/ "../../../../../src/environments/environment.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
+// The file contents for the current environment will overwrite these during build.
+// The build system defaults to the dev environment which uses `environment.ts`, but if you do
+// `ng build --env=prod` then `environment.prod.ts` will be used instead.
+// The list of which env maps to which file can be found in `.angular-cli.json`.
+var environment = {
+    production: false,
+    envName: "devLocal",
+    config: {
+        APP_NAME: "Angular Test App",
+        API_URL: "http://localhost:3000/",
+    }
+};
 
 
 /***/ }),
