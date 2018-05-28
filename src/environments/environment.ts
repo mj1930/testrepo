@@ -8,6 +8,6 @@ export const environment = {
   envName: "devLocal",
   config: {
     APP_NAME: "Angular Test App",
-    API_URL: "https://testapp-mihir.herokuapp.com/",
+    API_URL: "http://13.232.17.54:3000/",
   }
 };
