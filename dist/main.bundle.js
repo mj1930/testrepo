@@ -233,7 +233,6 @@ var BookingComponent = (function () {
     BookingComponent.prototype.getTotalSeats = function () {
         var _this = this;
         this.getSeats = this.getService.getBookedTickets().then(function (res) {
-            console.log(res);
             if (res.status == 200) {
                 _this.totalSeats = 80 - res.data.length;
             }
@@ -506,7 +505,7 @@ var environment = {
     envName: "devLocal",
     config: {
         APP_NAME: "Angular Test App",
-        API_URL: "http://localhost:3000/",
+        API_URL: "https://testapp-mihir.herokuapp.com/",
     }
 };
 
