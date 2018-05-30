@@ -14,15 +14,16 @@ import { FlashMessagesService } from 'ngx-flash-messages';
 export class BookingComponent implements OnInit {
 
   bookings;
+  bookedTickets;
   busy: Promise<any>;
   getSeats: Promise<any>;
   bookingForm: FormGroup;
   totalSeats;
+  reservedTicket:any = [];
   genderData = ['Male', 'Female', 'Other'];
   numberData = [1, 2, 3, 4, 5, 6, 7];
   nOfPassengers = [1];
   constructor(
-    private formBuilder: FormBuilder,
     private service: BookingService,
     private _router: Router,
     private getService: DisplaySeatsService,
@@ -30,17 +31,9 @@ export class BookingComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.bookingForm = this.formBuilder.group({
-      booking: this.formBuilder.array([
-        this.initTravellers()
-      ]) 
-    })
     this.getTotalSeats();
+    this.getTickets();
   }
-
-  get booking(): FormArray {
-    return this.bookingForm.get('booking') as FormArray;
-  };
 
   getTotalSeats() {
     this.getSeats = this.getService.getBookedTickets().then(
@@ -55,47 +48,28 @@ export class BookingComponent implements OnInit {
     )
   }
 
-  private passengerVal(value) {
-    this.nOfPassengers = value;
-    if (value > this.booking.length) {
-      let numbers_to_add = value - this.booking.length;
-      for (let i =0; i < numbers_to_add; i++) {
-        this.addTravellers();
-      }
-    }
-    else {
-      let numbers_to_add = this.booking.length - value;
-      for (let i = numbers_to_add; i > 0 ; i--) {
-        this.booking.removeAt(i);
-      }
-    }
-  }
-
-  addTravellers() {
-    this.bookings = this.bookingForm.get('booking');
-    this.bookings.push(this.initTravellers());
-  }
-
-  private initTravellers(): FormGroup {
-    return this.formBuilder.group({
-      name: '',
-      age: ''
-    })
+  passengerVal(value) {
+      this.nOfPassengers = value;
   }
 
   onClick() {
-   this.busy = this.service.addNewBooking(this.bookingForm.value, this.nOfPassengers).then(
+    this._router.navigate([`/booked-seats/${this.nOfPassengers}`]);
+  }
+
+  getTickets() {
+    this.busy = this.getService.getBookedTickets().then(
       (res: any) => {
         if(res.status == 200){
-          this.flashMsgService.show(res.msg, {
-            classes: ['alert', 'alert-success'],
-            timeout: 2000, 
-          })
-          this.getTotalSeats();
+          this.bookedTickets = res.data;
+          for (let i = 0; i< this.bookedTickets.length; i++) {
+            this.reservedTicket.push(this.bookedTickets[i].seat);
+          }
+          localStorage.setItem('tickets', JSON.stringify(this.reservedTicket));
         }
         else {
+          this.bookedTickets = [];
           this.flashMsgService.show(res.msg, {
-            classes: ['alert', 'alert-warning'],
+            classes: ['alert', 'alert-error'],
             timeout: 2000, 
           })
         }

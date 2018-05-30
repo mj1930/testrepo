@@ -6,7 +6,10 @@
 .form-check-input:disabled~.form-check-label {
     color: rgba(0, 0, 0, 0.9);
 }
-
+.box-length {
+    width: 14.285714285714285714285714285714%;
+    float: left;
+}
 input:disabled, textarea:disabled {
     color: rgba(0, 0, 0, 0.9);
     cursor: default;
@@ -16,4 +19,18 @@ a {
     text-decoration: none;
     background-color: transparent;
     -webkit-text-decoration-skip: objects;
+}
+.wide {
+    width: 20%;
+}
+.box {
+    border: 1px solid #ddd;
+    width: 30px;
+    height: 30px;
+    margin: 0.2rem;
+    text-align: center;
+    background:#0d72de!important;
+}
+.reserve{ 
+    background:#101010!important;
 }

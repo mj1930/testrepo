@@ -1,24 +1,31 @@
 <div class="container">  
   <div class="row">
+    <ngx-flash-messages></ngx-flash-messages>
     <div class="col-sm-12 top">
       <a [routerLink]="['/']">
         <i class="fa fa-dashboard"></i> Book A Ticket
       </a>
+    </div>    
+    <div class="col-sm-12" *ngIf="nOfTickets > 0">
+      <h3>Select your {{nOfTickets}} ticket.</h3>
     </div>
-    <div class="col-sm-2" *ngFor="let ticket of totalTicket(80); let i='index+1'; let j=index">
+    <div class="box-length" *ngFor="let ticket of totalTicket(80); let i='index+1';">
       <div class="form-check">
-        <div *ngIf= "bookedTickets.length >= i; else newTemplate">
-          <input class="form-check-input" [id]="i" type="checkbox" disabled checked="{{(bookedTickets[j].seat == i) ? true : false}}">
-          <label class="form-check-label" [for]="i">
-            {{bookedTickets[j].name}}
-          </label>
-        </div>
+        <ng-container [ngTemplateOutlet]='checkStatus(ticket) ? oddTemplate : newTemplate' [ngTemplateOutletContext]="{number:i}">
+        </ng-container>
       </div>
+    </div>
+    <div class="col-sm-12">
+      <button type="submit" (click)="onClick()" class="wide btn btn-primary btn-block btn-flat" value="">Book Ticket</button>
     </div>
   </div>
 </div>
-<ng-template #newTemplate>
-    <input class="form-check-input" type="checkbox" disabled>
-    <label class="form-check-label">
+<ng-template #newTemplate let-i='number'>
+    <input class="form-check-input" [id]="i" (change)="onCheck($event)" type="checkbox">
+    <label class="form-check-label box text-warning">{{i}}</label>
+</ng-template>
+<ng-template #oddTemplate let-i='number' let-bookedTickets='bookedTickets'>
+    <input class="form-check-input" [id]="i" type="checkbox" disabled="reserved" checked="reserved">
+    <label class="form-check-label reserve box text-success">{{i}}
     </label>
 </ng-template>

@@ -9,9 +9,9 @@ export class BookingService {
   BASE_URL: string = environment.config.API_URL;
   constructor(private _router: Router, private http: Http) { }
 
-  addNewBooking(body, nOfPassengers) {
+  addNewBooking(booking, nOfPassengers) {
     let bodyData = {
-      body,
+      booking,
       nOfPassengers
     }
     return this.http.post(`${this.BASE_URL}booking/addBooking`, bodyData)

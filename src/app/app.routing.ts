@@ -12,7 +12,7 @@ export const appRoutes: Routes = [
         component: BookingComponent
     },
     {
-        path: 'booked-seats',
+        path: 'booked-seats/:tickets',
         component: DisplaySeatsComponent
     }
 ]

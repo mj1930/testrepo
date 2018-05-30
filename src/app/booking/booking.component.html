@@ -9,32 +9,14 @@
         <option *ngFor="let number of numberData">{{number}}</option>
       </select>
     </div>
-    <section [formGroup]= "bookingForm">
-      <div formArrayName = "booking">
-        <div *ngFor=" let book of booking.controls; let i=index;" class="form-group" [formGroupName]='i' >
-          <div>
-            <div class="form-group">
-              <div class="col-xs-12">
-                <label>Name :</label>
-                <input type="text" class="form-control" [id]="'name'+i" formControlName="name">
-              </div>
-            </div>
-            <div class="form-group">
-                <div class="col-xs-12">
-                  <label>Age :</label>
-                  <input type="text" class="form-control" [id]="'age'+i" formControlName="age">
-                </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <section>
       <div class="form-group">
         <div class="row">
-          <div class="col-sm-2">
-            <button type="submit" (click)="onClick()" class="btn btn-primary btn-block btn-flat" value="">Save</button>
+          <div class="col-sm-2 top">
+            <button type="submit" (click)="onClick()" class="btn btn-primary btn-block btn-flat" value="">Select Seats</button>
           </div>
           <div class="col-sm-4 top">
-            <a [routerLink]="['/booked-seats']">
+            <a [routerLink]="['/booked-seats/0']">
               <i class="fa fa-dashboard"></i> Booked Tickets
             </a>
           </div>
